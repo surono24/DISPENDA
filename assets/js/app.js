@@ -189,7 +189,7 @@ var RupabumiIndonesia = L.tileLayer('https://portal.ina-sdi.or.id/arcgis/rest/se
   attribution: 'RBI 2019 BIG | <a href="#" target="_blank">ObliqueGIS@2019</a>',
   bounds: [[8, 144], [-15, 90]]
 });
-  basemap1.addTo(map);
+  basemap.addTo(map);
 
 //layer Manado
 var ManaDo = L.geoJson(null, {
