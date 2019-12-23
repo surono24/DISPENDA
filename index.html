@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>PETA PENDAPATAN DAERAH</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css">
+  <link rel="stylesheet" href="js/betterscale/L.Control.BetterScale.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+  <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+  <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="icon" type="image/x-icon" href="assets/img/sulut.png">
+		<style>
+		   html, body, #map {
+		     height: 100%;
+		     width: 100%;
+		     margin: 0px;
+		   }
+		</style>
+
+		<style>
+			.no-js #loader { display: none;  }
+			.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+			.se-pre-con {
+		position: fixed;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		background: url(assets/img/Preloader_1.gif) center no-repeat #fff;
+			}
+		</style>
+
+</head>
+<body>
+
+	    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+          </div>
+			<a class="navbar-brand" href="https://sulutprov.go.id/" target="_blank">PETA PENDAPATAN DAERAH SULAWESI UTARA</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+			<li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-bars white"></i>&nbsp;&nbsp;Legenda</a></li>
+			<li class="dropdown">
+              <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Perbesar <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-globe"></i>&nbsp;&nbsp;Sulawesi Utara</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="manaDo-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Manado</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bitung-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Bitung</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="tomohon-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Tomohon</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="kotamobagu-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Kotamobagu</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bolmong-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Bolaang Mongondow</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bolsel-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Bolaang Mongondow Selatan</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bolmut-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Bolaang Mongondow Utara</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="boltim-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Bolaang Mongondow Timur</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="minahasa-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Minahasa</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="minsel-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Minahasa Selatan</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="mitra-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Minahasa Tenggara</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="minut-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Minahasa Utara</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="sangihe-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Kep. Sangihe</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="talaud-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Kep. Talaud</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="sitaro-btn"><i class="fa fa-map-o"></i>&nbsp;&nbsp;Kep. Sitaro</a></li>
+              </ul>
+            </li>
+			<li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="downloaddata-btn"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download Data</a></li>
+			<li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;Tentang</a></li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" align="center">Tentang</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs nav-justified" id="aboutTabs">
+              <li><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;Info</a></li>
+              <li class="active"><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Hubungi kami</a></li>
+            </ul>
+            <div class="tab-content" id="aboutTabsContent">
+              <div class="tab-pane fade" id="about">
+                <p>WebGIS ini disederhanakan oleh Tim Oblique GIS dari <a href="https://github.com/bmcbride/bootleaf" target="_blank">Bootleaf</a> Bryan McBride</p>
+              </div>
+              <div class="tab-pane fade active in" id="contact">
+                <table class='table table-striped table-bordered table-condensed'>
+					<tr><td colspan="2" style="text-align: center"><img src="assets/img/oblique.png" width="200px"></td></tr>
+					<tr><td>Website</td><td><a href="#" target="_blank">www.obliquegis.com</a></td></tr>
+					<tr><td>Email</td><td>obliquegis@gmail.com</td></tr>
+					<tr><td>Telepon/SMS/WhatsApp</td><td>0812 4526 6522</td></tr>
+					<tr><td>Facebook</td><td><a href="https://web.facebook.com/surono.huseinbegovic" target="_blank">Oblique GIS</a></td></tr>
+				</table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="downloaddataModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" align="center">Download Data</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+				<ul>
+					<li><a href="data/batas_kab.geojson" download="batas_kab.geojson">Batas Kabupaten/Kota</a></li>
+				</ul>
+			</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" align="center">Legenda</h4>
+            <p><img src="assets/img/legenda.png" width="240" /></p>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+  <div class="se-pre-con"></div>
+	<div id="map"></div>
+
+<!-- MODAL_1 -->
+      <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" align="center">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title text-primary" id="feature-title"></h4>
+          </div>
+          <div class="modal-body" id="feature-info"></div>
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-primary pull-left" data-toggle="modal" data-target="#myModal2">Pendapatan Daerah</button> -->
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<!-- MODAL_2 -->
+<!-- <div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Pendapatan Daerah</h4>
+        </div>
+        <div class="modal-body">
+          <script src="assets/js/content.js"></script>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+	<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="js/betterscale/L.Control.BetterScale.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+	<script src="assets/js/app.js"></script>
+
+</body>
+</html>
